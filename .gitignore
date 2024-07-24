@@ -1,0 +1,41 @@
+# Build results
+bin/
+obj/
+
+# User-specific files
+*.user
+*.userosscache
+*.suo
+*.sln.docstates
+
+# IDE-specific files
+.vs/
+.idea/
+.vscode/
+
+# Configuration files
+appsettings.Development.json
+appsettings.Production.json
+appsettings.Staging.json
+
+# Package files
+*.nupkg
+
+# Logs
+*.log
+
+# User secrets
+secrets.json
+
+# Build artifacts
+*.dll
+*.exe
+*.pdb
+*.cache
+
+# Test results
+TestResults/
+
+# Other directories
+.npm/
+.nuget/
