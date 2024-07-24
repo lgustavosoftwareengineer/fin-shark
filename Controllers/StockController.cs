@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using FinShark.Data;
+using FinShark.Mappers;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace FinShark.Controllers
 {   
@@ -18,11 +20,10 @@ namespace FinShark.Controllers
             _context = context;
         }
 
-
         [HttpGet]
         public IActionResult GetAll() {
 
-            var stocks = _context.Stocks.ToList();
+            var stocks = _context.Stocks.ToList().Select(s => s.ToStockDto());
 
             return Ok(stocks);
         }
@@ -32,7 +33,7 @@ namespace FinShark.Controllers
             var stock = _context.Stocks.Find(id);
 
             if (stock != null) {
-                return Ok(stock);
+                return Ok(stock.ToStockDto());
             }
 
             return NotFound();

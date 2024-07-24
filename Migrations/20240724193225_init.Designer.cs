@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FinShark.Migrations
 {
     [DbContext(typeof(ApplicationDBContext))]
-    [Migration("20240724171131_init")]
+    [Migration("20240724193225_init")]
     partial class init
     {
         /// <inheritdoc />
@@ -91,10 +91,15 @@ namespace FinShark.Migrations
             modelBuilder.Entity("FinShark.Models.Comment", b =>
                 {
                     b.HasOne("FinShark.Models.Stock", "Stock")
-                        .WithMany()
+                        .WithMany("Comments")
                         .HasForeignKey("StockId");
 
                     b.Navigation("Stock");
+                });
+
+            modelBuilder.Entity("FinShark.Models.Stock", b =>
+                {
+                    b.Navigation("Comments");
                 });
 #pragma warning restore 612, 618
         }

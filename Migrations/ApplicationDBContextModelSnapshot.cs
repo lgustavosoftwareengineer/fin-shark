@@ -88,10 +88,15 @@ namespace FinShark.Migrations
             modelBuilder.Entity("FinShark.Models.Comment", b =>
                 {
                     b.HasOne("FinShark.Models.Stock", "Stock")
-                        .WithMany()
+                        .WithMany("Comments")
                         .HasForeignKey("StockId");
 
                     b.Navigation("Stock");
+                });
+
+            modelBuilder.Entity("FinShark.Models.Stock", b =>
+                {
+                    b.Navigation("Comments");
                 });
 #pragma warning restore 612, 618
         }
