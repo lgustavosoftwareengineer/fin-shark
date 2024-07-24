@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FinShark.Migrations
 {
     [DbContext(typeof(ApplicationDBContext))]
-    [Migration("20240723182057_init")]
+    [Migration("20240724171131_init")]
     partial class init
     {
         /// <inheritdoc />
@@ -51,7 +51,7 @@ namespace FinShark.Migrations
 
                     b.HasIndex("StockId");
 
-                    b.ToTable("Comment");
+                    b.ToTable("Comments");
                 });
 
             modelBuilder.Entity("FinShark.Models.Stock", b =>
@@ -79,13 +79,13 @@ namespace FinShark.Migrations
                     b.Property<decimal>("Purchase")
                         .HasColumnType("decimal(18, 2)");
 
-                    b.Property<string>("Title")
+                    b.Property<string>("Symbol")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
-                    b.ToTable("Stock");
+                    b.ToTable("Stocks");
                 });
 
             modelBuilder.Entity("FinShark.Models.Comment", b =>
