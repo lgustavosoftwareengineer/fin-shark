@@ -3,7 +3,6 @@ using FinShark.Dtos.Stock;
 using FinShark.Interfaces;
 using FinShark.Mappers;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 
 namespace FinShark.Controllers
 {   
@@ -28,7 +27,7 @@ namespace FinShark.Controllers
             
             var stocksDto = stocks.Select(s => s.ToStockDto());
 
-            return Ok(stocks);
+            return Ok(stocksDto);
         }
 
         [HttpGet("{id}")]
