@@ -13,5 +13,8 @@ namespace FinShark.Interfaces
 
 
         Task<Comment?> UpdateAsync(int id, UpdateCommentRequestDto updateDto);
+
+
+        Task<Comment?> DeleteAsync(int id);
     }
 }

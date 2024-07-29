@@ -61,5 +61,17 @@ namespace FinShark.Controllers
 
             return Ok(comment.ToCommentDto());
         }
+
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> Delete([FromRoute] int id) {
+            var deletedComment = await _commentRepo.DeleteAsync(id);
+
+            if (deletedComment == null) {
+                return NotFound("Comment not found");
+            }
+
+            return NoContent();
+        }
     }
 }
