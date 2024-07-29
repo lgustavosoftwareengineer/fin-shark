@@ -15,6 +15,7 @@ namespace FinShark.Mappers
                 LastDiv = stockModel.LastDiv,
                 MarketCap = stockModel.MarketCap,
                 Purchase = stockModel.Purchase,
+                Comments = stockModel.Comments.Select(c => c.ToCommentDto()).ToList(),
             };
         }
 

@@ -19,5 +19,13 @@ namespace FinShark.Repositories
 
             return comments;
         }
+
+        public Task<Comment?> GetByIdAsync(int id)
+        {
+            var comment = _context.Comments.FirstOrDefaultAsync(c => c.Id == id);
+
+
+            return comment;
+        }
     }
 }
