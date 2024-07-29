@@ -45,10 +45,21 @@ namespace FinShark.Controllers
                 return BadRequest("Stock does not exist");
             }
 
-            var commentModel = await _commentRepo.CreateAsync(commentDto.ToCommentFromCreateDto(stockId));
+            var comment = await _commentRepo.CreateAsync(commentDto.ToCommentFromCreateDto(stockId));
 
 
-            return CreatedAtAction(nameof(GetById), new {id = commentModel.Id}, commentModel.ToCommentDto());
+            return CreatedAtAction(nameof(GetById), new {id = comment.Id}, comment.ToCommentDto());
+        }
+
+        [HttpPut("{id}")]
+        public async Task<IActionResult> Update([FromRoute] int id, [FromBody] UpdateCommentRequestDto commentDto) {
+            var comment = await _commentRepo.UpdateAsync(id, commentDto);
+            
+            if (comment == null) {
+                return NotFound("Comment not found");
+            }
+
+            return Ok(comment.ToCommentDto());
         }
     }
 }

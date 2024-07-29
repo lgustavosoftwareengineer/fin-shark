@@ -1,4 +1,5 @@
 using FinShark.Data;
+using FinShark.Dtos.Comment;
 using FinShark.Interfaces;
 using FinShark.Models;
 using Microsoft.EntityFrameworkCore;
@@ -30,12 +31,28 @@ namespace FinShark.Repositories
             return comments;
         }
 
-        public Task<Comment?> GetByIdAsync(int id)
+        public async Task<Comment?> GetByIdAsync(int id)
         {
-            var comment = _context.Comments.FirstOrDefaultAsync(c => c.Id == id);
+            var comment = await _context.Comments.FirstOrDefaultAsync(c => c.Id == id);
 
 
             return comment;
+        }
+
+        public async Task<Comment?> UpdateAsync(int id, UpdateCommentRequestDto updateDto)
+        {
+            var existingComment = await _context.Comments.FirstOrDefaultAsync(c => c.Id == id);
+
+            if (existingComment == null) {
+                return null;
+            }
+
+            existingComment.Title = updateDto.Title;
+            existingComment.Content = updateDto.Content;
+
+            await _context.SaveChangesAsync();
+
+            return existingComment;
         }
     }
 }
