@@ -14,5 +14,13 @@ namespace FinShark.Mappers
                 Title = comment.Title
             };
         }
+
+        public static Comment ToCommentFromCreateDto(this CreateCommentRequestDto createDto, int stockId) {
+            return new Comment {
+                Title = createDto.Title,
+                Content = createDto.Content,
+                StockId = stockId,
+            };
+        }
     }
 }
