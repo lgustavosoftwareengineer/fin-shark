@@ -52,6 +52,13 @@ namespace FinShark.Repositories
                 stocksQuery = stocksQuery.Where(s => s.Symbol.Contains(queryObject.Symbol));
             }
 
+
+            if (!string.IsNullOrWhiteSpace(queryObject.SortBy)) {
+                if (queryObject.SortBy.Equals("Symbol", StringComparison.OrdinalIgnoreCase)) {
+                    stocksQuery = queryObject.IsDescending ? stocksQuery.OrderByDescending(s => s.Symbol) : stocksQuery.OrderBy(s => s.Symbol);
+                }
+            }
+
             return await stocksQuery.Include(s => s.Comments).ToListAsync();
         }
 
