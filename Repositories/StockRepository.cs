@@ -42,7 +42,7 @@ namespace FinShark.Repositories
         public async  Task<List<Stock>> GetAllAsync(GetAllStocksQueryObject queryObject)
         
         {
-            var stocksQuery = _context.Stocks.AsQueryable();
+            var stocksQuery = _context.Stocks.Include(s => s.Comments).AsQueryable();
 
             if (!string.IsNullOrWhiteSpace(queryObject.CompanyName)) {
                 stocksQuery = stocksQuery.Where(s => s.CompanyName.Contains(queryObject.CompanyName));
@@ -59,7 +59,9 @@ namespace FinShark.Repositories
                 }
             }
 
-            return await stocksQuery.Include(s => s.Comments).ToListAsync();
+            var skipNumber = (queryObject.PageNumber - 1) * queryObject.PageSize;
+
+            return await stocksQuery.Skip(skipNumber).Take(queryObject.PageSize).ToListAsync();
         }
 
         public async Task<Stock?> GetByIdAsync(int id)
