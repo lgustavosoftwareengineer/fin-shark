@@ -1,4 +1,5 @@
 using FinShark.Dtos.Account;
+using FinShark.Interfaces;
 using FinShark.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -7,18 +8,21 @@ namespace FinShark.Controllers
 {
     [Route("api/account")]
     [ApiController]
-    public class AccountController(UserManager<AppUser> _userManager) : ControllerBase
+    public class AccountController(UserManager<AppUser> _userManager, ITokenService _tokenService) : ControllerBase
     {
-        
+
         [HttpPost("register")]
-        public async Task<IActionResult> Register([FromBody] RegisterDto registerDto) 
+        public async Task<IActionResult> Register([FromBody] RegisterDto registerDto)
         {
-            try {
-                if (!ModelState.IsValid) {
+            try
+            {
+                if (!ModelState.IsValid)
+                {
                     return BadRequest(ModelState);
                 };
-                
-                var appUser = new AppUser {
+
+                var appUser = new AppUser
+                {
                     UserName = registerDto.Username,
                     Email = registerDto.Email,
                 };
@@ -26,24 +30,32 @@ namespace FinShark.Controllers
                 var createdUser = await _userManager.CreateAsync(appUser, registerDto.Password);
 
 
-                if (createdUser.Succeeded) 
+                if (createdUser.Succeeded)
                 {
                     var roleResult = await _userManager.AddToRoleAsync(appUser, "User");
 
                     if (roleResult.Succeeded)
                     {
-                        return Ok("User created");
-                    } else 
+                        return Ok(
+                            new NewUserDto
+                            {
+                                Username = appUser.UserName,
+                                Email = appUser.Email,
+                                Token = _tokenService.CreateToken(appUser),
+                            });
+                    }
+                    else
                     {
                         return StatusCode(500, roleResult.Errors);
                     }
-                } else 
+                }
+                else
                 {
                     return StatusCode(500, createdUser.Errors);
 
                 }
-            } 
-            catch (Exception e) 
+            }
+            catch (Exception e)
             {
                 return StatusCode(500, e);
             }
